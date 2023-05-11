@@ -1,45 +1,80 @@
-import React from 'react';
-import './index.css';
+import React, { useState } from "react";
+import { weatherStatus } from "./weather.js";
+import "./index.css";
+
+const api = {
+  key: process.env.REACT_APP_WEATHER_API_KEY,
+  base: "https://api.openweathermap.org/data/2.5/"
+}
 
 function App() {
+  const [query, setQuery] = useState('');
+  const [weather, setWeather] = useState({});
 
-  const dateBuilder = (d) => {
-    let months = ["January", "February", "March", "April", "May", "June", "July", "August", 
-    "September", "October", "November", "December"];
-    let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  
-    let day = days[d.getDay()];
-    let date = d.getDate();
-    let month = months[d.getMonth()];
-    let year = d.getFullYear();
-
-    return `${day} ${month} ${date}, ${year}`
+  const search = evt => {
+    if (evt.key === "Enter") {
+      fetch (`${api.base}weather?q=${query}&units=metric&appid=${api.key}`)
+        .then(res => res.json())
+        .then(result => {
+          setWeather(result);
+          setQuery('');
+        });
+    }
   }
 
+  function titleCase(str) {
+    let splitStr = str.toLowerCase().split(" ");
+
+    for (let i = 0; i < splitStr.length; i++) {
+      splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+    }
+    return splitStr.join(" ");
+  }
 
   return (
-    <div className="app">
+    <div className={
+      (typeof weather.main != "undefined")  
+      ? ((weatherStatus[titleCase(weather.weather[0].description)]) ? (weatherStatus[titleCase(weather.weather[0].description)].background) : "app") : "app"
+      }>
       <main>
-        <div className="search-box">
-          <input 
-            type="text"
-            className="search-bar"
-            placeholder="Search for a city"
-          />
-        </div>
-        <div className="location-box">
-          <div className="location">Amsterdam</div>
-          {/* <div className="date">{dateBuilder(new Date())}</div> */}
-        </div>
-        <div className="weather-box">
-          <div className="temp">
-            60°F
+        <div className="container">
+          <div className="search-box">
+            <input 
+              type="text"
+              className="search-bar"
+              placeholder="Search for a city"
+              onChange={e => setQuery(e.target.value)}
+              value={query}
+              onKeyDown={search}
+            />
           </div>
-          <div className="weather">
-            Partly Cloudy
+          {(typeof weather.main != "undefined") ? (
+          <div>
+            <div className="results-box">
+              <div className="location-box">
+                <div className="location">
+                  {weather.name}, {weather.sys.country}
+                </div>
+              </div>
+              <div className="weather-box">
+                <div className="weather-icon">
+                  <img src={weatherStatus[titleCase(weather.weather[0].description)].icon} alt="Weather Icon"/>
+                </div>
+                <div className="weather">
+                  {titleCase(weather.weather[0].description)}
+                </div>
+                <div className="temp">
+                  {Math.round((weather.main.temp) *  9/5) + 32} Degrees F
+                </div>
+              </div> 
+            </div>
           </div>
+          ) : ("")}
         </div>
       </main>
+      <footer>
+        Coded by Victoria Vu.
+      </footer>
     </div>
   );
 }
