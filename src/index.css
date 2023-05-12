@@ -45,7 +45,8 @@ footer {
 .container {
    display: flex;
    flex-direction: column;
-   padding: 100px;
+   justify-content: center;
+   padding: 80px;
 }
 
 .app {
@@ -84,7 +85,7 @@ footer {
 .search-box {
    display: flex;
    justify-content: center;
-   margin: -50px 0 75px;
+   margin: -50px 0 70px;
    width: 100%;
 }
 
@@ -131,13 +132,19 @@ footer {
 }
 
 .weather-box .weather {
-   padding-bottom: 10px;
+   padding-bottom: 20px;
    font-size: 20px;
    font-weight: var(--fw-bold);
    font-style: var(--fs-italic);
 }
 
-.weather-box .temp {
+.weather-box .current-temp {
+   padding-bottom: 20px;
    font-size: 40px;
+   font-weight: var(--fw-bold);
+}
+
+.weather-box .high-low-temp {
+   font-size: 20px;
    font-weight: var(--fw-bold);
 }
