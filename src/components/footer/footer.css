@@ -1,0 +1,35 @@
+:root {
+    --white: hsl(0, 0%, 100%);
+    --lightblue: hsl(195, 65%, 90%);
+    --greyblue: hsl(195, 30%, 79%);
+    --lightergrey: hsl(0, 5%, 96%);
+    --lightgrey: hsl(197, 12%, 88%); 
+    --grey: hsl(0, 0%, 74%);
+    --darkgrey: hsl(0, 0%, 46%);
+    --black: hsl(0, 0%, 0%);
+    --ff-main: Evolventa, sans-serif;
+    --fw-bold: 700;
+    --fs-italic: italic;
+}
+
+footer {
+    display: flex;
+    flex-direction: column;
+    padding: 50px 0px 50px 150px;
+    background-color: var(--black);
+    font-weight: var(--fw-bold);
+    color: var(--white);
+}
+
+.coded-by {
+    padding-bottom: 5px;
+}
+ 
+.socials a {
+    padding-right: 8px;
+}
+
+.social-icon img {
+    width: 30px;
+    height: 30px;
+}
